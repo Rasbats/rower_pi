@@ -1,0 +1,59 @@
+:imagesdir: ../images/
+
+= e_timer
+
+image:0.png[]
+
+Count_up/Count_down timer. 
+
+== Installation
+
+Available in the managed plugins catalog.
+
+== Links
+
+* Source: https://github.com/Rasbats/e_timer_pi[Gihub Repository]  
+* Forum:
+
+== Description
+
+The e_timer plugin is a simple Count_up/Count_down timer that includes a repeat alarm. It has been found useful for single-handing. 
+
+A normal kitchen timer will sound for a short time and then stop. It is easy to return to sleep without getting up and it is even possible to ignore the alarm. 
+
+e_timer makes this difficult. The alarm used is the same as the anchor alarm from the main OpenCPN program. 
+
+== Standard actions
+
+The plugin appears in the toolbar like this.
+
+image:1.png[]
+
+Pressing the icon opens the main dialog for the plugin.
+
+image:2.png[]
+
+The type of alarm can be selected by using the checkboxes.
+
+== Count Up
+image::3.png[]
+Set the interval using the drop-down control. Press "Start". The count-up starts and the alarm will sound when the time is reached. Press "Stop" to cancel the alarm.
+
+== Count Down
+image::4.png[]
+Set the number of minutes using the drop-down control. Press "Start". The count-down starts and the alarm will sound when the set time has elapsed. Press "Stop" to cancel the alarm.
+
+== Repeat
+image::5.png[]
+Set the interval using the drop-down control. Press "Start". The timer starts and the alarm will sound when the time is reached. Press "Stop" to silence the alarm. Pressing "Start" or "Stop" resets the count to zero and the timer start again, counting up again from zero to the interval that has been selected. 
+
+image::7.png[]
+
+To cancel the alarm uncheck the repeat checkbox.
+
+== Enhancements or Problems
+
+Please report these by raising an issue in the github repository:
+
+https://github.com/Rasbats/e_timer_pi/issues[https://github.com/Rasbats/e_timer_pi/issues/]
+
