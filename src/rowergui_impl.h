@@ -32,8 +32,8 @@
 #include "wx/wx.h"
 #endif
 
-#include "e_timer_pi.h"
-#include "e_timergui.h"
+#include "rower_pi.h"
+#include "rowergui.h"
 #include "wx/window.h"
 #include "ocpn_plugin.h"
 #include <wx/menu.h>

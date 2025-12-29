@@ -38,8 +38,8 @@
 #include <wx/fileconf.h>
 
 #include "ocpn_plugin.h" //Required for OCPN plugin functions
-#include "e_timergui_impl.h"
-#include "e_timergui.h"
+#include "rowergui_impl.h"
+#include "rowergui.h"
 
 #include "config.h"
 

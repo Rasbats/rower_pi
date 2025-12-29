@@ -25,9 +25,9 @@
  ***************************************************************************
  */
 
-#include "e_timergui_impl.h"
-#include "e_timer_pi.h"
-#include "e_timergui.h"
+#include "rowergui_impl.h"
+#include "rower_pi.h"
+#include "rowergui.h"
 #include "icons.h"
 
 #include "wx/dir.h"

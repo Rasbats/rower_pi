@@ -31,9 +31,9 @@
 #include "wx/wx.h"
 #endif  // precompiled headers
 
-#include "e_timer_pi.h"
-#include "e_timergui_impl.h"
-#include "e_timergui.h"
+#include "rower_pi.h"
+#include "rowergui_impl.h"
+#include "rowergui.h"
 
 // the class factories, used to create and destroy instances of the PlugIn
 
