@@ -73,7 +73,7 @@ class rowerBase : public wxDialog
 		wxStaticText* m_stHeading;
 		wxStaticText* m_stSpeed;
 		wxSlider* m_SliderSpeed;
-		wxTimer m_timer1;
+		wxTimer m_timer;
 
 		rowerBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rower"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 
@@ -82,9 +82,9 @@ class rowerBase : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class rowerPreferences
+/// Class shipdriverPreferences
 ///////////////////////////////////////////////////////////////////////////////
-class rowerPreferences : public wxDialog
+class shipdriverPreferences : public wxDialog
 {
 	private:
 
@@ -99,9 +99,9 @@ class rowerPreferences : public wxDialog
 		wxTextCtrl* m_textCtrlMMSI;
 		wxCheckBox* m_cbNMEAToFile;
 
-		rowerPreferences( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxRESIZE_BORDER );
+		shipdriverPreferences( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxRESIZE_BORDER );
 
-		~rowerPreferences();
+		~shipdriverPreferences();
 
 };
 

@@ -1,11 +1,11 @@
 /******************************************************************************
  *
  * Project:  OpenCPN
- * Purpose:  Timer Plugin
+ * Purpose: rower Plugin
  * Author:   Mike Rossiter
  *
  ***************************************************************************
- *   Copyright (C) 2013 by Mike Rossiter                                   *
+ *   Copyright (C) 2017 by Mike Rossiter                                   *
  *   $EMAIL$                                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,36 +25,94 @@
  ***************************************************************************
  */
 
-#ifndef _CALCULATORGUI_IMPL_H_
-#define _CALCULATORGUI_IMPL_H_
+#ifndef _HRGUI_IMPL_H_
+#define _HRGUI_IMPL_H_
 
 #ifdef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
+#include "AisMaker.h"
 #include "rower_pi.h"
-#include "rowergui.h"
-#include "wx/window.h"
+#include "rower_gui.h"
 #include "ocpn_plugin.h"
+#include "tinyxml.h"
+#include "wx/process.h"
+#include "json/reader.h"
+#include "json/writer.h"
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <wx/filedlg.h>
+#include <wx/gdicmn.h>
+#include <wx/listctrl.h>
+#include <wx/stdpaths.h>
+#include <wx/thread.h>
+#include <wx/utils.h>
+#include <wx/msgdlg.h>
+#include <wx/arrstr.h>
+#include <wx/vector.h>
+#include <wx/dataobj.h>
+#include <wx/list.h>
+#include <wx/window.h>
 #include <wx/menu.h>
-
-#include <list>
-#include <vector>
+#include <wx/timer.h>
 
 #define ID_SOMETHING 2001
 #define ID_SOMETHING_ELSE 2002
 
+#define KNOT_2_KPH 1.852
+#define METER_2_FEET 3.280839895
+#define METER_2_FATHOM 0.5468066492
+
+#ifdef __WXOSX__
+#definerower_DLG_STYLE wxCLOSE_BOX | wxDEFAULT_DIALOG_STYLE | \
+    wxRESIZE_BORDER | wxSTAY_ON_TOP
+#else
+#define rower_DLG_STYLE wxCLOSE_BOX | wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
+#endif
 using namespace std;
 
-class e_timer_pi;
+class rowerPi;
 
-class Dlg : public m_Dialog {
+class rtept {
 public:
-  Dlg(wxWindow* parent, e_timer_pi* ppi);
-  ~Dlg();
+  wxString Name, m_GUID;
+  int index;
+  wxString lat, lon;
+};
 
-  wxWindow* pParent;
-  e_timer_pi* pPlugIn;
+class rte {
+public:
+  wxString Name;
+
+  vector<rtept> m_rteptList;
+};
+
+class MyThread : public wxThread {
+public:
+  MyThread();
+  virtual ~MyThread();
+
+  // thread execution starts here
+  virtual void* Entry();
+
+public:
+  unsigned m_count;
+};
+
+// An identifier to notify the application when the // work is done #define
+// ID_COUNTED_COLORS    100
+
+class AisMaker;
+
+class Dlg : public rowerBase {
+public:
+  Dlg(wxWindow* parent, wxWindowID id = wxID_ANY,
+      const wxString& title = _("rower"),
+      const wxPoint& pos = wxDefaultPosition,
+      const wxSize& size = wxDefaultSize, long style = rower_DLG_STYLE);
+  rowerPi* plugin;
 
 #ifdef __ANDROID__
   void OnMouseEvent(wxMouseEvent& event);
@@ -68,31 +126,193 @@ public:
 
 #endif
 
-private:
-  void OnStartTimer(wxCommandEvent& event);
-  void OnStopTimer(wxCommandEvent& event);
+  wxString LatitudeToString(double mLat);
+  wxString LongitudeToString(double mLon);
+  wxString DateTimeToTimeString(wxDateTime myDT);
+  wxString DateTimeToDateString(wxDateTime myDT);
+  void OnContextMenu(double m_lat, double m_lon);
+
+  wxString makeCheckSum(wxString mySentence);
+
+  wxTimer* m_timer;
   void OnTimer(wxTimerEvent& event);
-  void OnTimer3(wxTimerEvent& event);
-  void OnTimer4(wxTimerEvent& event);
-  void OnDuration(wxCommandEvent& event);
-  void OnCountdown(wxCommandEvent& event);
-  void OnRepeat(wxCommandEvent& event);
-  void OnClose(wxCloseEvent& event);
+
+  double GetLatitude() { return initLat; };
+  double GetLongitude() { return initLon; };
+
+  double initLat;
+  double initLon;
+  double nextLat;
+  double nextLon;
+
+  double stepLat;
+  double stepLon;
+  AisMaker* myAIS;
+  wxTextFile* nmeafile;
+  wxTextFile* nmeastream;
+
+  bool m_bUseAis;
+  bool m_bUseNMEA;
+  bool m_bUseFile;
+  wxString m_tMMSI;
+
+  bool m_bAuto;
+
+  wxDateTime m_GribTimelineTime;
+
+  double myDir;
+  void SetNMEAMessage(wxString sentence);
+  bool m_bGotAPB;
+  void parseNMEASentence(wxString& sentence);
+
+protected:
+  bool m_bNeedsGrib;
+
+private:
+  wxString row_vtg;
   void Notify();
-  void Notify2();
-  void Notify3();
-  void Notify4();
-  void OnClock(wxTimerEvent& event);
-  void UpdateClock();
+  wxString MWD, VHW, MWVA, MWVT, GLL, VTG, HDT, RMC, MDBT;
+  double initDir, initSpd, initRudder, myDist, followStepDistance;
+
+  vector<rte> my_routes;
+  vector<rtept> routePoints;
+  unique_ptr<PlugIn_Route_Ex> thisRoute;
+  vector<PlugIn_Waypoint_Ex*> theWaypoints;
+  int nextRoutePointIndex;
+  double nextRoutePoint;
+  double followDir;
+  int countRoutePoints;
+
+  wxDateTime dt;
+  void SetInterval(int interval);
+  int m_interval;
+
+  wxString m_sTimeSentence;
+  wxString m_sTimeID;
+  wxString m_sNmeaTime;
+
   bool dbg;
-  int g_tick;
-  wxString g_anchorwatch_sound_file;
-  wxString m_soundFile;
-  wxString m_empty_soundFile;
-  bool play_sound;
-  bool stop_notify;
-  wxDateTime m_dtNow;
-  void FillCountdown();
+
+  bool m_bUseSetTime;
+  bool m_bUseStop;
+  bool m_bUsePause;
+
+  bool SART_active;
+
+  void parseNMEASentence(wxString& sentence);
+
+  void SetNextStep(double inLat, double inLon, double inDir, double inSpd,
+                   double& outLat, double& outLon);
+  void SetFollowStep(double inLat, double inLon, double inDir, double inSpd,
+                     double& outLat, double& outLon);
+
+  void OnStart(wxCommandEvent& event);
+  void OnStop(wxCommandEvent& event);
+  void OnClose(wxCloseEvent& event);
+
+  void SetStop();
+  void StartDriving();
+
+  void OnFollow(wxCommandEvent& event);
+  int mainTest(int argc, char* argv[]);
+  // void SendAIS(double cse, double spd, double lat, double lon);
+
+  void OnMidships(wxCommandEvent& event);
+  void OnMinus10(wxCommandEvent& event);
+  void OnPlus10(wxCommandEvent& event);
+  void OnMinus1(wxCommandEvent& event);
+  void OnPlus1(wxCommandEvent& event);
+
+  void OnStandby(wxCommandEvent& event);
+  void GoToStandby();
+
+  void OnAuto(wxCommandEvent& event);
+
+  // Distress alarms
+  int alarm_id;
+
+  bool m_bSART;
+  bool m_bMOB;
+  bool m_bEPIRB;
+  bool m_bDISTRESS;
+  bool m_bCANCEL;
+  bool m_bDISTRESSRELAY;
+  bool m_bRELAYCANCEL;
+  bool m_bCOLLISION;
+
+  wxString SARTid;
+  wxString MOBid;
+  wxString EPIRBid;
+  wxString ALERTid;
+  wxString CANCELid;
+
+  int SARTint;
+  int MOBint;
+  int EPIRBint;
+  int DISTRESSint;
+  int CANCELint;
+
+  wxString myNMEA_SART;
+  wxString myNMEA_MOB;
+  wxString myNMEA_EPIRB;
+  wxString myNMEA_DISTRESS;
+  wxString myNMEA_CANCEL;
+  wxString myNMEA_DISTRESSRELAY;
+  wxString myNMEA_RELAYCANCEL;
+  wxString myNMEA_Collision;
+
+  int stop_count;
+  int stop_countMOB;
+  int stop_countEPIRB;
+  int stop_countDISTRESS;
+  int stop_countCANCEL;
+  int stop_countDISTRESSRELAY;
+  int stop_countRELAYCANCEL;
+  int stop_countCOLLISION;
+
+  double m_latSART;
+  double m_lonSART;
+  double m_latMOB;
+  double m_lonMOB;
+  double m_latEPIRB;
+  double m_lonEPIRB;
+  double m_latCollision;
+  double m_lonCollision;
+  double m_collisionDir;
+
+  void OnPause(wxCommandEvent& event);
+  void ResetPauseButton();
+
+  long m_iMMSI;
+
+  virtual void Lock() { routemutex.Lock(); }
+  virtual void Unlock() { routemutex.Unlock(); }
+  wxMutex routemutex;
+
+  wxString createRMCSentence(wxDateTime myDateTime, double myLat, double myLon,
+                             double mySpd, double myDir);
+  wxString createVTGSentence(double mySpd, double myDir);
+
+  double AttributeDouble(TiXmlElement* e, const char* name, double def);
+
+  static wxString StandardPath();
+
+  bool m_bUsingFollow;
+  bool m_browerHasStarted;
+
+  Plugin_WaypointExList* myList;
+};
+
+class GetRouteDialog : public wxDialog {
+public:
+  GetRouteDialog(wxWindow* parent, wxWindowID id, const wxString& title,
+                 const wxPoint& pos = wxDefaultPosition,
+                 const wxSize& size = wxDefaultSize,
+                 long style = wxDEFAULT_DIALOG_STYLE);
+
+  wxListView* dialogText;
+
+private:
 };
 
 #endif
