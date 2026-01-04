@@ -258,7 +258,7 @@ rowerBase::~rowerBase()
 
 }
 
-shipdriverPreferences::shipdriverPreferences( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+rowerPreferences::rowerPreferences( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 
@@ -314,6 +314,6 @@ shipdriverPreferences::shipdriverPreferences( wxWindow* parent, wxWindowID id, c
 	this->Centre( wxBOTH );
 }
 
-shipdriverPreferences::~shipdriverPreferences()
+rowerPreferences::~rowerPreferences()
 {
 }

@@ -82,9 +82,9 @@ class rowerBase : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class shipdriverPreferences
+/// Class rowerPreferences
 ///////////////////////////////////////////////////////////////////////////////
-class shipdriverPreferences : public wxDialog
+class rowerPreferences : public wxDialog
 {
 	private:
 
@@ -99,9 +99,9 @@ class shipdriverPreferences : public wxDialog
 		wxTextCtrl* m_textCtrlMMSI;
 		wxCheckBox* m_cbNMEAToFile;
 
-		shipdriverPreferences( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxRESIZE_BORDER );
+		rowerPreferences( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxRESIZE_BORDER );
 
-		~shipdriverPreferences();
+		~rowerPreferences();
 
 };
 

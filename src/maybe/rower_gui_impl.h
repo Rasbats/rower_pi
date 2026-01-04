@@ -293,8 +293,6 @@ private:
                                   double myLon, double mySpd, double myDir); 
   wxString createVTGSentence(double mySpd, double myDir);
 
-  double AttributeDouble(TiXmlElement* e, const char* name, double def);
-
   static wxString StandardPath();
 
   bool m_bUsingFollow;

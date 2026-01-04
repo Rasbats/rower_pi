@@ -52,10 +52,15 @@ set(SRC
     src/rower_pi.cpp
     src/icons.h
     src/icons.cpp
-    src/rowergui.h
-    src/rowergui.cpp
+    src/rower_gui.h
+    src/rower_gui.cpp
     src/rowergui_impl.cpp
     src/rowergui_impl.h
+    src/plug_utils.cpp
+    src/plug_utils.h
+    src/AisMaker.h
+    src/AisMaker.cpp
+
 )
 
 set(PKG_API_LIB api-18)  #  A directory in libs/ e. g., api-17 or api-16
@@ -66,6 +71,10 @@ macro(late_init)
 endmacro ()
 
 macro(add_plugin_libraries)
+
+  add_subdirectory("${CMAKE_SOURCE_DIR}/libs/std_filesystem")
+  target_link_libraries(${PACKAGE_NAME} ocpn::filesystem)
+
   add_subdirectory("${CMAKE_SOURCE_DIR}/opencpn-libs/plugin_dc")
   target_link_libraries(${PACKAGE_NAME} ocpn::plugin-dc)
 

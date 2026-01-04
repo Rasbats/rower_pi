@@ -36,7 +36,7 @@ if not
 #include "wx/tglbtn.h"
 
 #include "qtstylesheet.h"
-#include "rower_gui_impl.h"
+#include "rowergui_impl.h"
 #include "rower_pi.h"
 
 #ifdef __ANDROID__

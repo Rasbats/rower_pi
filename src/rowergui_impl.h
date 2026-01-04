@@ -36,10 +36,7 @@
 #include "rower_pi.h"
 #include "rower_gui.h"
 #include "ocpn_plugin.h"
-#include "tinyxml.h"
 #include "wx/process.h"
-#include "json/reader.h"
-#include "json/writer.h"
 #include <cmath>
 #include <algorithm>
 #include <sstream>
@@ -199,8 +196,6 @@ private:
 
   bool SART_active;
 
-  void parseNMEASentence(wxString& sentence);
-
   void SetNextStep(double inLat, double inLon, double inDir, double inSpd,
                    double& outLat, double& outLon);
   void SetFollowStep(double inLat, double inLon, double inDir, double inSpd,
@@ -293,7 +288,6 @@ private:
                              double mySpd, double myDir);
   wxString createVTGSentence(double mySpd, double myDir);
 
-  double AttributeDouble(TiXmlElement* e, const char* name, double def);
 
   static wxString StandardPath();
 

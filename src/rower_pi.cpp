@@ -35,9 +35,10 @@
 #include "icons.h"
 #include "rower_pi.h"
 #include "rower_gui.h"
-#include "rower_gui_impl.h"
+#include "rowergui_impl.h"
 #include "ocpn_plugin.h"
 #include "plug_utils.h"
+#include <wx/window.h>
 
 class Dlg;
 
@@ -402,7 +403,6 @@ bool rowerPi::SaveConfig() {
 void rowerPi::OnrowerDialogClose() {
   m_show_rower = false;
   SetToolbarItemState(m_leftclick_tool_id, m_show_rower);
-  m_dialog->Hide();
   SaveConfig();
 
   RequestRefresh(m_parent_window);  // refresh main window

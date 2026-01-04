@@ -38,13 +38,14 @@
 #include <wx/fileconf.h>
 #include <wx/datetime.h>
 #include <wx/tokenzr.h>
+#include <wx/window.h>
 
 #include "config.h"
 
 
 
 #include "ocpn_plugin.h"  //Required for OCPN plugin functions
-#include "rower_gui_impl.h"
+#include "rowergui_impl.h"
 
 
 class Dlg;
