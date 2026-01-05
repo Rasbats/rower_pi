@@ -161,12 +161,13 @@ public:
   void SetNMEAMessage(wxString sentence);
   bool m_bGotAPB;
   void parseNMEASentence(wxString& sentence);
+  wxString row_vtg;
 
 protected:
   bool m_bNeedsGrib;
 
 private:
-  wxString row_vtg;
+  
   void Notify();
   wxString MWD, VHW, MWVA, MWVT, GLL, VTG, HDT, RMC, MDBT;
   double initDir, initSpd, initRudder, myDist, followStepDistance;

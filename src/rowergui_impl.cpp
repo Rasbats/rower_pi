@@ -435,7 +435,7 @@ void Dlg::parseNMEASentence(wxString& sentence) {
     s5 = token[5];
 
     row_vtg = s5;
-    // wxMessageBox(row_vtg);
+    //wxMessageBox(row_vtg);
   }
 
   // row_vtg = "16";
@@ -475,6 +475,7 @@ void Dlg::OnClose(wxCloseEvent& event) {
 }
 
 void Dlg::Notify() {
+  //wxMessageBox(row_vtg);
   wxString mySentence;
   plugin->SetNMEASentence(mySentence);
   initSpd = wxAtof(row_vtg);

@@ -240,7 +240,8 @@ rowerBase::rowerBase( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_buttonPause->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( rowerBase::OnPause ), NULL, this );
 	m_buttonStandby->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rowerBase::OnStandby ), NULL, this );
 	m_button7->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rowerBase::OnFollow ), NULL, this );
-	this->Connect( m_timer.GetId(), wxEVT_TIMER, wxTimerEventHandler( rowerBase::OnTimer ) );
+        this->Connect(wxID_ANY, wxEVT_TIMER,
+                      wxTimerEventHandler(rowerBase::OnTimer));
 }
 
 rowerBase::~rowerBase()
@@ -254,7 +255,8 @@ rowerBase::~rowerBase()
 	m_buttonPause->Disconnect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( rowerBase::OnPause ), NULL, this );
 	m_buttonStandby->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rowerBase::OnStandby ), NULL, this );
 	m_button7->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rowerBase::OnFollow ), NULL, this );
-	this->Disconnect( m_timer.GetId(), wxEVT_TIMER, wxTimerEventHandler( rowerBase::OnTimer ) );
+        this->Disconnect(wxID_ANY, wxEVT_TIMER,
+                      wxTimerEventHandler(rowerBase::OnTimer));
 
 }
 
